@@ -15,7 +15,7 @@ type Phase = "idle" | "sending" | "success" | "error";
 
 const SEMESTER = ["1", "2", "3", "4", "5", "6", "7", "8", "Lainnya (guru / umum)"];
 
-export default function RegistrationForm({ defaultKelas = "", homeHref = "/" }: { defaultKelas?: string; homeHref?: string }) {
+export default function RegistrationForm({ defaultKelas = "" }: { defaultKelas?: string }) {
   const valid = kelasList.some((k) => k.slug === defaultKelas) ? defaultKelas : "";
   const [v, setV] = useState<Values>({
     nama: "", npm: "", email: "", wa: "", institusi: "", prodi: "",
@@ -78,7 +78,7 @@ export default function RegistrationForm({ defaultKelas = "", homeHref = "/" }: 
       <div ref={resultRef} role="status" className="min-w-0 flex-[2_1_560px] rounded-3xl border-2 border-esco-purple bg-white p-8">
         <div className="text-xl font-bold">Pendaftaran berhasil</div>
         <p className="mb-0 mt-2 text-sm text-[#444]">Terima kasih, {v.nama}. Cek email <strong>{v.email}</strong> untuk detail dan informasi akses Virtual Class Unila.</p>
-        <Link href={homeHref} className="btn-purple mt-5">Kembali ke beranda</Link>
+        <Link href="/" className="btn-purple mt-5">Kembali ke beranda</Link>
       </div>
     );
   }

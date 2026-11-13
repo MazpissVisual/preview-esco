@@ -13,14 +13,11 @@ const cls: Record<Variant, string> = {
 export default function RegisterButton({
   variant = "yellow",
   kelas,
-  base = "",
   children = "Daftar Sekarang",
   className = "",
 }: {
   variant?: Variant;
   kelas?: string;
-  /** awalan rute untuk versi lain, mis. "/v3" */
-  base?: string;
   children?: React.ReactNode;
   className?: string;
 }) {
@@ -36,7 +33,7 @@ export default function RegisterButton({
     );
   }
   return (
-    <Link href={kelas ? `${base}/daftar?kelas=${kelas}` : `${base}/daftar`} className={`${cls[variant]} ${className}`}>
+    <Link href={kelas ? `/daftar?kelas=${kelas}` : "/daftar"} className={`${cls[variant]} ${className}`}>
       {children}
     </Link>
   );

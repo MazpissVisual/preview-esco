@@ -22,10 +22,10 @@ export const benefits = [
 ];
 
 export const speakers = [
-  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]", keynote: true },
-  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]", keynote: false },
-  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]", keynote: false },
-  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]", keynote: false },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
 ];
 
 export const flow = [

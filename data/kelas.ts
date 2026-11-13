@@ -1,10 +1,18 @@
 export type Sesi = { judul: string; ringkasan: string; tanggal: string };
 export type Pengajar = { nama: string; instansi: string };
+/**
+ * Cover kartu kelas. Untuk memakai gambar asli: taruh file di public/kelas/ lalu isi
+ * { src: "/kelas/ipa.jpg", pos: "50% 50%", zoom: 1, duotone: false }. Selama belum ada, dipakai
+ * potongan ilustrasi hero (duotone ungu) sebagai cover sementara; pos = titik fokus, zoom = pembesaran.
+ */
+export type KelasCover = { src: string; pos: string; zoom: number; duotone: boolean };
+
 export type Kelas = {
   slug: string;
   nomor: string;
   nama: string;
   kategori: string;
+  cover: KelasCover;
   deskripsiSingkat: string;
   gambaran: string[];
   durasi: string;
@@ -31,12 +39,13 @@ const gambaranDefault = [
   "[Paragraf tentang metode belajar: webinar lewat Virtual Class Unila, tugas, dan diskusi.]",
 ];
 
-function buat(slug: string, nomor: string, nama: string): Kelas {
+function buat(slug: string, nomor: string, nama: string, cover: KelasCover): Kelas {
   return {
     slug,
     nomor,
     nama,
     kategori: "[Kategori]",
+    cover,
     deskripsiSingkat: "[Deskripsi singkat kelas dalam satu sampai dua kalimat.]",
     gambaran: gambaranDefault,
     durasi: "[Durasi]",
@@ -48,11 +57,14 @@ function buat(slug: string, nomor: string, nama: string): Kelas {
   };
 }
 
+// Cover sementara: empat potongan berbeda dari ilustrasi hero.
+const sementara = (pos: string, zoom: number): KelasCover => ({ src: "/hero-bg.png", pos, zoom, duotone: true });
+
 export const kelasList: Kelas[] = [
-  buat("ipa", "01", "[Kelas IPA]"),
-  buat("bahasa", "02", "[Kelas Bahasa]"),
-  buat("kelas-3", "03", "[Nama kelas 3]"),
-  buat("kelas-4", "04", "[Nama kelas 4]"),
+  buat("ipa", "01", "[Kelas IPA]", sementara("30% 32%", 1.5)),
+  buat("bahasa", "02", "[Kelas Bahasa]", sementara("22% 80%", 1.7)),
+  buat("kelas-3", "03", "[Nama kelas 3]", sementara("74% 58%", 1.6)),
+  buat("kelas-4", "04", "[Nama kelas 4]", sementara("62% 22%", 1.4)),
 ];
 
 export const getKelas = (slug: string) => kelasList.find((k) => k.slug === slug);

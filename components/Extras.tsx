@@ -55,7 +55,7 @@ export function ParallaxBg({ children }: { children: React.ReactNode }) {
     };
   }, []);
   return (
-    <div ref={ref} aria-hidden="true" className="absolute -inset-y-10 inset-x-0 -z-20 will-change-transform">
+    <div ref={ref} aria-hidden="true" className="absolute -inset-y-10 inset-x-0 -z-20 bg-esco-dark will-change-transform">
       {children}
     </div>
   );

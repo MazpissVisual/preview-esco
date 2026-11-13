@@ -22,7 +22,7 @@ export const site = {
     "[Pernyataan penggunaan data: data pribadi hanya digunakan panitia untuk keperluan ESCO dan tidak dibagikan ke pihak ketiga selain Google.]",
   menu: [
     { label: "Tentang", href: "/#tentang" },
-    { label: "Program", href: "/#program" },
+    { label: "Kelas", href: "/#kelas" },
     { label: "Narasumber", href: "/#narasumber" },
     { label: "Pengumuman", href: "/#pengumuman" },
     { label: "FAQ", href: "/#faq" },
