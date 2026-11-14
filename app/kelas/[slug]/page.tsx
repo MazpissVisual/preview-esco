@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import FadeImage from "@/components/FadeImage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -29,13 +30,14 @@ const h2 = "m-0 text-[26px] font-extrabold leading-tight text-esco-dark md:text-
 export default async function DetailKelas({ params }: { params: Promise<{ slug: string }> }) {
   const k = getKelas((await params).slug);
   if (!k) notFound();
-  const lain = kelasList.filter((x) => x.slug !== k.slug);
+  // tiga kelas berikutnya (berputar), bukan seluruh daftar
+  const idx = kelasList.findIndex((x) => x.slug === k.slug);
+  const lain = [1, 2, 3].map((n) => kelasList[(idx + n) % kelasList.length]);
   const fakta = [
     { label: "Durasi", value: k.durasi },
     { label: "Jumlah pertemuan", value: k.jumlahWebinar },
     { label: "Format", value: "Webinar daring" },
     { label: "Platform", value: "Virtual Class Unila" },
-    { label: "Kuota", value: k.kuota },
     { label: "Pendaftaran s.d.", value: site.tanggalPenutupan },
   ];
 
@@ -112,9 +114,15 @@ export default async function DetailKelas({ params }: { params: Promise<{ slug: 
                 <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2">
                   {k.pengajar.map((t, i) => (
                     <li key={i} className="flex items-center gap-4 rounded-2xl border border-esco-line p-4">
-                      <span className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-esco-soft text-esco-accent">
-                        <Person className="h-7 w-7" />
-                      </span>
+                      {t.foto ? (
+                        <span className="block h-14 w-14 flex-none overflow-hidden rounded-full bg-esco-soft">
+                          <FadeImage src={t.foto} alt={t.nama} width={56} height={56} className="h-full w-full object-cover mix-blend-multiply" />
+                        </span>
+                      ) : (
+                        <span className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-esco-soft text-esco-accent">
+                          <Person className="h-7 w-7" />
+                        </span>
+                      )}
                       <span className="min-w-0">
                         <span className="block font-display font-extrabold text-esco-dark">{t.nama}</span>
                         <span className="block text-sm text-[#5a4a6c]">{t.instansi}</span>
@@ -136,9 +144,9 @@ export default async function DetailKelas({ params }: { params: Promise<{ slug: 
                 ))}
               </dl>
               <p className="m-0 text-sm leading-relaxed text-esco-text2">
-                Kelas diikuti lewat Virtual Class Unila. [Info akses dikirim ke email peserta terdaftar.]
+                Kelas diikuti lewat Virtual Class FKIP Unila. [NPM dan info akses dikirim bagian TIK ke email peserta setelah mendaftar.]
               </p>
-              <RegisterButton variant="purple" kelas={k.slug} className="w-full">Daftar kelas ini</RegisterButton>
+              <RegisterButton variant="purple" className="w-full">Daftar Sekarang</RegisterButton>
               <p className="m-0 text-center text-sm text-[#5a4a6c]">Butuh bantuan? {site.kontak.whatsapp}</p>
             </aside>
           </div>
@@ -169,7 +177,7 @@ export default async function DetailKelas({ params }: { params: Promise<{ slug: 
         </section>
       </main>
 
-      <StickyCta kelas={k.slug} nama={k.nama} info={`${k.durasi} · ${k.jumlahWebinar}`} />
+      <StickyCta nama={k.nama} info={`${k.durasi} · ${k.jumlahWebinar}`} />
       <Footer />
       <BackToTop />
     </>

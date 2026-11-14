@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import type { KelasCover } from "@/data/kelas";
 
 /** Cover kartu kelas 16:9 dengan lencana nomor. Cover sementara memakai perlakuan duotone ungu. */
@@ -7,7 +7,7 @@ export default function KelasCoverImage({ cover, nomor, sizes }: { cover: KelasC
     <div className="relative aspect-[16/9] overflow-hidden bg-esco-dark">
       <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
         <div className="absolute inset-0 bg-esco-dark" style={{ transform: `scale(${cover.zoom})`, transformOrigin: cover.pos }}>
-          <Image
+          <FadeImage
             src={cover.src}
             alt=""
             fill

@@ -15,7 +15,7 @@ export const ERROR_MESSAGES: Record<RegisterError, string> = {
 };
 
 export async function submitRegistration(
-  data: RegistrationData & { website?: string },
+  data: RegistrationData & { negaraNama: string; website?: string },
 ): Promise<RegisterResult> {
   if (!URL_APPS_SCRIPT) return { ok: false, error: "server" };
   try {

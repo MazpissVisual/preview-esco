@@ -13,12 +13,11 @@ export const metadata: Metadata = {
   description: "Formulir pendaftaran peserta Education Summer Course Online (ESCO) FKIP Universitas Lampung.",
 };
 
-export default async function Pendaftaran({ searchParams }: { searchParams: Promise<{ kelas?: string }> }) {
-  const { kelas } = await searchParams;
+export default function Pendaftaran() {
   const info = [
     { label: "Penutupan", value: site.tanggalPenutupan },
     { label: "Kuota", value: site.kuota },
-    { label: "Pelaksanaan", value: `${site.tanggalMulai} – ${site.tanggalSelesai}` },
+    { label: "Pelaksanaan", value: site.pelaksanaan },
   ];
 
   return (
@@ -32,7 +31,7 @@ export default async function Pendaftaran({ searchParams }: { searchParams: Prom
           <div className="wrap flex flex-col gap-4 pb-12 pt-10 md:pb-14 md:pt-14">
             <Eyebrow light>Pendaftaran</Eyebrow>
             <h1 className="hero-in hero-in-1 m-0 text-[32px] font-extrabold leading-[1.1] tracking-[-.02em] md:text-[46px]">Pendaftaran Peserta ESCO</h1>
-            <p className="hero-in hero-in-2 m-0 max-w-2xl text-base text-esco-muted md:text-lg">[Kalimat singkat: lengkapi data berikut. Konfirmasi dikirim ke email yang didaftarkan.]</p>
+            <p className="hero-in hero-in-2 m-0 max-w-2xl text-base text-esco-muted md:text-lg">[Lengkapi data berikut. NPM dan info akses Virtual Class dikirim bagian TIK ke email yang didaftarkan.]</p>
           </div>
         </section>
 
@@ -48,7 +47,7 @@ export default async function Pendaftaran({ searchParams }: { searchParams: Prom
           </ol>
 
           <div className="flex flex-wrap items-start gap-8">
-            <RegistrationForm defaultKelas={kelas} />
+            <RegistrationForm />
             <aside className="flex min-w-0 flex-[1_1_300px] flex-col gap-5 lg:sticky lg:top-24">
               <div className="rounded-2xl border border-esco-line bg-white p-6">
                 <h2 className="m-0 text-lg font-extrabold text-esco-dark">Informasi pendaftaran</h2>

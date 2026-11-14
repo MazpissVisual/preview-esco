@@ -5,10 +5,10 @@ export const site = {
   penyelenggara: "FKIP Universitas Lampung",
   tagline:
     "[Tagline singkat: kelas musim panas daring pertama FKIP Unila, satu sampai dua kalimat.]",
-  tanggalMulai: "[TANGGAL MULAI]",
-  tanggalSelesai: "[TANGGAL SELESAI]",
-  tanggalPenutupan: "[TANGGAL PENUTUPAN]",
-  sasaranPeserta: "[SASARAN PESERTA]",
+  pelaksanaan: "Januari",
+  format: "Virtual Class",
+  tanggalPenutupan: "Desember",
+  sasaranPeserta: "Mahasiswa internasional",
   kuota: "[JUMLAH KUOTA]",
   kontak: {
     email: "[Email panitia]",
@@ -19,7 +19,7 @@ export const site = {
   },
   hakCipta: "[Hak cipta ESCO FKIP Universitas Lampung]",
   privasi:
-    "[Pernyataan penggunaan data: data pribadi hanya digunakan panitia untuk keperluan ESCO dan tidak dibagikan ke pihak ketiga selain Google.]",
+    "[Pernyataan penggunaan data: data pribadi (termasuk nomor paspor bila diisi) hanya digunakan panitia dan bagian TIK Unila untuk pendaftaran dan pembuatan NPM, disimpan di Google Sheets, dan tidak dibagikan ke pihak lain.]",
   menu: [
     { label: "Tentang", href: "/#tentang" },
     { label: "Kelas", href: "/#kelas" },

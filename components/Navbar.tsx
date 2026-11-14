@@ -52,7 +52,7 @@ export default function Navbar({ shrink = false }: { shrink?: boolean }) {
     <header className={`sticky top-0 z-40 border-b bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "border-transparent shadow-[0_6px_24px_rgba(37,9,59,.12)]" : "border-esco-line"}`}>
       <div className={`wrap flex items-center justify-between gap-4 transition-[padding] duration-300 ${shrink && scrolled ? "py-1.5" : "py-3"}`}>
         <Link href="/" aria-label="ESCO Unila, ke beranda" className="flex items-center">
-          <Image src="/esco-logo.png" alt="ESCO Unila, Education Summer Course Online" width={157} height={52} priority className={`w-auto transition-[height] duration-300 ${shrink && scrolled ? "h-9 md:h-10" : "h-11 md:h-[52px]"}`} />
+          <Image src="/esco-logo-transparan.png" alt="ESCO Unila, Education Summer Course Online" width={157} height={52} priority className={`w-auto transition-[height] duration-300 ${shrink && scrolled ? "h-9 md:h-10" : "h-11 md:h-[52px]"}`} />
         </Link>
         <nav className="hidden items-center gap-7 text-sm font-medium md:flex" aria-label="Menu utama">
           {menu.map((m) => {

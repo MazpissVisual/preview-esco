@@ -21,7 +21,19 @@ export const benefits = [
   { title: "[Benefit lain]", text: "[Misalnya konsultasi atau tugas akhir.]" },
 ];
 
-export const speakers = [
+/** foto: path di public/dosen/ (mis. "/dosen/nama-dosen.jpg"). Kosong = ikon orang. */
+export type Pembicara = { name: string; org: string; topic: string; foto?: string };
+
+export const speakers: Pembicara[] = [
+  {
+    name: "Dr. Sheren Dwi Oktaria, M.Pd.",
+    org: "Universitas Lampung",
+    topic: "Media Pembelajaran",
+    foto: "/dosen/sheren-dwi-oktaria.jpg",
+  },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
+  { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
   { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
   { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
   { name: "[Nama lengkap, gelar]", org: "[Instansi]", topic: "[Topik yang dibawakan]" },
@@ -29,8 +41,8 @@ export const speakers = [
 ];
 
 export const flow = [
-  { n: "1", title: "Daftar", text: "Isi formulir pendaftaran sebelum [TANGGAL PENUTUPAN]." },
-  { n: "2", title: "Terima info akses", text: "[Cek email untuk info akses ke Virtual Class Unila.]" },
+  { n: "1", title: "Daftar", text: "Isi formulir pendaftaran sebelum Desember." },
+  { n: "2", title: "Terima NPM dan info akses", text: "Bagian TIK Unila mengirim NPM dan info akses Virtual Class ke email Anda." },
   { n: "3", title: "Ikuti webinar", text: "Masuk ke Virtual Class Unila dan hadir sesuai jadwal." },
   { n: "4", title: "Dapatkan sertifikat", text: "[Syarat kehadiran / tugas untuk sertifikat.]" },
 ];
@@ -51,6 +63,6 @@ export const faqs = [
 
 export const pendaftaranLangkah = [
   "Isi formulir pendaftaran",
-  "Terima info akses Virtual Class Unila",
-  "Ikuti webinar sesuai jadwal",
+  "Terima NPM Unila dan info akses dari TIK",
+  "Masuk ke Virtual Class dan ikuti webinar",
 ];

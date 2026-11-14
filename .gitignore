@@ -9,3 +9,6 @@ next-env.d.ts
 # berkas referensi desain (bukan bagian situs)
 Wireframe ESCO*.html
 versi2.html
+
+# berkas asli (SVG besar) sebelum dioptimasi
+aset-asli/

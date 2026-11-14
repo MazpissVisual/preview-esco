@@ -8,6 +8,8 @@ import RegisterButton from "@/components/RegisterButton";
 import Footer from "@/components/Footer";
 import TopStrip from "@/components/TopStrip";
 import Person from "@/components/Person";
+import HScroll from "@/components/HScroll";
+import FadeImage from "@/components/FadeImage";
 import KelasCoverImage from "@/components/KelasCover";
 import { BackToTop, ParallaxBg, ScrollProgress } from "@/components/Extras";
 import { site } from "@/data/site";
@@ -16,9 +18,9 @@ import { about, benefits, speakers, flow, news, faqs } from "@/data/konten";
 
 // Kartu info yang menumpuk di tepi bawah hero
 const strip = [
-  { label: "Pelaksanaan", value: `${site.tanggalMulai} – ${site.tanggalSelesai}` },
-  { label: "Format", value: "Webinar (Virtual Class Unila)" },
-  { label: "Pendaftaran", value: `Sampai ${site.tanggalPenutupan}` },
+  { label: "Pelaksanaan", value: site.pelaksanaan },
+  { label: "Format", value: site.format },
+  { label: "Pendaftaran", value: site.tanggalPenutupan },
   { label: "Peserta", value: site.sasaranPeserta },
 ];
 
@@ -43,19 +45,19 @@ export default function Beranda() {
       <Navbar shrink />
 
       <main id="konten" className="fx">
-        {/* HERO: gambar latar duotone ungu + overlay */}
+        {/* HERO: foto Gedung Rektorat Unila + overlay ungu */}
         <section data-dark className="relative isolate min-h-[600px] overflow-hidden bg-esco-dark text-white md:min-h-0">
           <ParallaxBg>
             <Image
-              src="/hero-bg.png"
+              src="/bg-hero.jpg"
               alt=""
               fill
               priority
               sizes="100vw"
-              className="object-cover object-[72%_20%] opacity-[.55] mix-blend-luminosity md:object-[70%_center]"
+              className="object-cover object-[50%_45%]"
             />
           </ParallaxBg>
-          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-esco-dark via-esco-dark/80 to-esco-dark/20 md:via-esco-dark/70" />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-esco-dark/95 via-esco-dark/80 to-esco-dark/50 md:via-esco-dark/70" />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-esco-dark/90 via-transparent to-transparent" />
           <div className="wrap flex flex-wrap items-center gap-14 pb-36 pt-14 md:pb-[150px] md:pt-[88px]">
             <div className="flex min-w-0 flex-[1_1_460px] flex-col gap-6">
@@ -112,18 +114,23 @@ export default function Beranda() {
           </div>
         </section>
 
-        {/* KELAS: kartu bercover, carousel geser di mobile */}
-        <section id="kelas" className="bg-esco-soft">
+        {/* KELAS: 8 kelas (4 per tampilan di layar lebar), geser untuk melihat sisanya */}
+        <section id="kelas" className="overflow-x-clip bg-esco-soft">
           <div className="wrap section-y flex flex-col gap-10">
-            <Reveal className="flex max-w-2xl flex-col gap-3">
-              <Eyebrow>Kelas</Eyebrow>
-              <h2 className="h2 m-0">Empat kelas, satu program</h2>
-              <p className="m-0 text-base text-esco-text2">[Pilih kelas sesuai bidang dan kebutuhan Anda. Satu peserta memilih satu kelas.]</p>
-            </Reveal>
-            <Reveal delay={100}>
-              <ul className="-mx-5 m-0 flex list-none snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
-                {kelasList.map((k) => (
-                  <li key={k.slug} className="flex min-w-0 flex-[0_0_82%] snap-start sm:flex-none">
+            <HScroll
+              label="Daftar kelas"
+              step={300}
+              header={
+                <Reveal className="flex max-w-2xl flex-col gap-3">
+                  <Eyebrow>Kelas</Eyebrow>
+                  <h2 className="h2 m-0">Delapan kelas, satu program</h2>
+                  <p className="m-0 text-base text-esco-text2">[Kelas diikuti lewat Virtual Class FKIP Unila setelah Anda mendaftar dan menerima NPM.]</p>
+                </Reveal>
+              }
+            >
+              {kelasList.map((k, i) => (
+                <li key={k.slug} className="flex w-[82%] flex-none snap-start sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)] xl:w-[calc((100%-3.75rem)/4)]">
+                  <Reveal delay={Math.min(i, 3) * 80} className="flex w-full">
                     <Link href={`/kelas/${k.slug}`} className="group card card-hover relative flex w-full flex-col overflow-hidden !rounded-2xl text-esco-darker no-underline">
                       <span aria-hidden="true" className="absolute inset-x-0 top-0 z-20 h-[3px] origin-left scale-x-0 bg-esco-gold transition-transform duration-300 ease-out group-hover:scale-x-100" />
                       <KelasCoverImage cover={k.cover} nomor={k.nomor} sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 82vw" />
@@ -139,10 +146,10 @@ export default function Beranda() {
                         </div>
                       </div>
                     </Link>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+                  </Reveal>
+                </li>
+              ))}
+            </HScroll>
           </div>
         </section>
 
@@ -170,30 +177,41 @@ export default function Beranda() {
           </div>
         </section>
 
-        {/* NARASUMBER */}
-        <section id="narasumber" className="bg-white">
+        {/* NARASUMBER: 8 pengajar (4 per tampilan di layar lebar), geser untuk melihat sisanya */}
+        <section id="narasumber" className="overflow-x-clip bg-white">
           <div className="wrap section-y flex flex-col gap-10">
-            <Reveal className="flex max-w-2xl flex-col gap-3">
-              <Eyebrow>Narasumber</Eyebrow>
-              <h2 className="h2 m-0">Pengajar dan narasumber</h2>
-            </Reveal>
-            <ul className="-mx-5 m-0 flex list-none snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+            <HScroll
+              label="Daftar pengajar dan narasumber"
+              autoScroll
+              header={
+                <Reveal className="flex max-w-2xl flex-col gap-3">
+                  <Eyebrow>Narasumber</Eyebrow>
+                  <h2 className="h2 m-0">Pengajar dan narasumber</h2>
+                </Reveal>
+              }
+            >
               {speakers.map((s, i) => (
-                <li key={i} className="flex min-w-0 flex-[0_0_78%] snap-start sm:flex-none">
-                  <Reveal delay={i * 80} className="flex w-full">
-                    <div className="group card card-hover relative flex h-full w-full flex-col gap-1.5 overflow-hidden !rounded-2xl p-6">
+                <li key={i} className="flex w-[82%] flex-none snap-start sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)] xl:w-[calc((100%-3.75rem)/4)]">
+                  <Reveal delay={Math.min(i, 3) * 80} className="flex w-full">
+                    <div className="group card card-hover relative flex h-full w-full flex-col gap-1.5 overflow-hidden !rounded-2xl p-5">
                       <span aria-hidden="true" className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-esco-gold transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                      <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-esco-soft text-esco-accent">
-                        <Person className="h-8 w-8" />
-                      </div>
-                      <h3 className="m-0 text-[17px] font-extrabold leading-snug text-esco-dark">{s.name}</h3>
+                      {s.foto ? (
+                        <span className="mb-3 block h-[88px] w-[88px] overflow-hidden rounded-full bg-esco-soft transition-transform duration-300 group-hover:scale-105">
+                          <FadeImage src={s.foto} alt={s.name} width={88} height={88} className="h-full w-full object-cover mix-blend-multiply" />
+                        </span>
+                      ) : (
+                        <div className="mb-3 flex h-[88px] w-[88px] items-center justify-center rounded-full bg-esco-soft text-esco-accent transition-transform duration-300 group-hover:scale-105">
+                          <Person className="h-9 w-9" />
+                        </div>
+                      )}
+                      <h3 title={s.name} className="m-0 overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-extrabold leading-snug text-esco-dark">{s.name}</h3>
                       <p className="m-0 text-sm text-[#5a4a6c]">{s.org}</p>
                       <p className="m-0 mt-3 border-t border-esco-line pt-3 text-sm text-esco-darker">{s.topic}</p>
                     </div>
                   </Reveal>
                 </li>
               ))}
-            </ul>
+            </HScroll>
           </div>
         </section>
 
@@ -290,10 +308,10 @@ export default function Beranda() {
               <p className="m-0 max-w-xl text-base font-medium leading-relaxed md:text-lg">[Satu kalimat alasan atau manfaat bergabung dengan program ini.]</p>
               <div className="mt-4 flex flex-wrap justify-center gap-3">
                 <RegisterButton variant="purple" className="!px-8 !py-4">
-                  Daftar Sekarang <span aria-hidden="true" className="ml-2">→</span>
+                  Daftar Sekarang <span aria-hidden="true" className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </RegisterButton>
-                <a href="#alur" className="btn border-[1.5px] border-esco-purple !px-8 !py-4 text-esco-purple hover:bg-esco-purple/10">
-                  Lihat alur <span aria-hidden="true" className="ml-2">→</span>
+                <a href="#alur" className="group btn border-[1.5px] border-esco-purple !px-8 !py-4 text-esco-purple hover:bg-esco-purple/10">
+                  Lihat alur <span aria-hidden="true" className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </div>
             </Reveal>

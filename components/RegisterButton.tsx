@@ -12,12 +12,10 @@ const cls: Record<Variant, string> = {
 
 export default function RegisterButton({
   variant = "yellow",
-  kelas,
   children = "Daftar Sekarang",
   className = "",
 }: {
   variant?: Variant;
-  kelas?: string;
   children?: React.ReactNode;
   className?: string;
 }) {
@@ -33,7 +31,7 @@ export default function RegisterButton({
     );
   }
   return (
-    <Link href={kelas ? `/daftar?kelas=${kelas}` : "/daftar"} className={`${cls[variant]} ${className}`}>
+    <Link href="/daftar" className={`group ${cls[variant]} ${className}`}>
       {children}
     </Link>
   );

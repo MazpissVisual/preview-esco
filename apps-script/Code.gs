@@ -2,20 +2,25 @@
  * Backend pendaftaran ESCO FKIP Unila (Google Apps Script Web App).
  * Deploy: Execute as "Me" (pemilik), Who has access "Anyone".
  * Sheet yang dibutuhkan di spreadsheet ini:
- *   - "Pendaftar"   : timestamp, nama, npm, email, wa, institusi, prodi, semester, kelas, motivasi
+ *   - "Pendaftar"   : timestamp, nama, email, telepon, negara_kode, negara, paspor, tanggal_lahir,
+ *                     institusi, prodi, jenjang, tahun_studi, motivasi
  *   - "Konfigurasi" : A2 = kuota total, B2 = tanggal penutupan (tanggal), C2 = status ("buka"/"tutup")
  * Jalankan setupSheets() sekali untuk membuat kedua sheet beserta header.
+ * Pendaftar tidak memilih kelas: NPM dan info akses Virtual Class dikirim oleh bagian TIK Unila.
  */
 
-var INFO_AKSES =
-  "[Teks info akses Virtual Class Unila: akun, kode pendaftaran kelas, atau tautan. Isi dari panitia.]";
 var NAMA_PENGIRIM = "Panitia ESCO FKIP Unila";
+var JENJANG = ["bachelor", "master", "doctoral", "other"];
+var KOLOM_EMAIL = 3; // kolom ke-3 pada sheet Pendaftar (untuk cek duplikat)
 
 function setupSheets() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var p = ss.getSheetByName("Pendaftar") || ss.insertSheet("Pendaftar");
   if (p.getLastRow() === 0) {
-    p.appendRow(["timestamp", "nama", "npm", "email", "wa", "institusi", "prodi", "semester", "kelas", "motivasi"]);
+    p.appendRow([
+      "timestamp", "nama", "email", "telepon", "negara_kode", "negara", "paspor", "tanggal_lahir",
+      "institusi", "prodi", "jenjang", "tahun_studi", "motivasi",
+    ]);
   }
   var c = ss.getSheetByName("Konfigurasi") || ss.insertSheet("Konfigurasi");
   if (c.getLastRow() === 0) {
@@ -56,24 +61,38 @@ function doGet() {
   return json_({ status: s.buka ? "open" : "closed", sisa: s.sisa });
 }
 
+function tanggalValid_(s) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  var d = new Date(s + "T00:00:00Z");
+  if (isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) return false;
+  return Number(s.slice(0, 4)) >= 1930 && d.getTime() <= new Date().getTime();
+}
+
 function validasi_(d) {
   var str = function (x) { return typeof x === "string" ? x.trim() : ""; };
-  if (str(d.nama).length < 3) return false;
-  if (str(d.npm).length < 5) return false;
+  if (str(d.nama).length < 2) return false;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str(d.email))) return false;
-  if (!/^(08|62)\d{8,12}$/.test(str(d.wa))) return false;
+  if (!/^\+[1-9]\d{6,14}$/.test(str(d.telepon))) return false;      // format internasional (E.164)
+  if (!/^[A-Z]{2}$/.test(str(d.negara))) return false;               // kode negara ISO
   if (str(d.institusi).length < 2) return false;
   if (str(d.prodi).length < 2) return false;
-  if (!str(d.semester)) return false;
-  if (!str(d.kelas)) return false;
+  if (JENJANG.indexOf(str(d.jenjang)) < 0) return false;
+  if (str(d.paspor) && !/^[A-Za-z0-9]{5,20}$/.test(str(d.paspor))) return false;   // opsional
+  if (str(d.tanggalLahir) && !tanggalValid_(str(d.tanggalLahir))) return false;    // opsional
   if (d.setuju !== true) return false;
   return true;
 }
 
-// Mencegah formula injection saat data dibuka di Sheets.
+// Mencegah formula injection saat data dibuka di Sheets (awalan = + - @ dijadikan teks).
 function aman_(x) {
   var s = String(x == null ? "" : x).trim().slice(0, 1000);
   return /^[=+\-@]/.test(s) ? "'" + s : s;
+}
+
+// Paksa sel menjadi teks (menjaga angka 0 di depan nomor paspor dan format tanggal).
+function teks_(x) {
+  var s = String(x == null ? "" : x).trim();
+  return s ? "'" + s : "";
 }
 
 function doPost(e) {
@@ -99,7 +118,7 @@ function doPost(e) {
     var email = String(d.email).trim().toLowerCase();
     var last = p.getLastRow();
     if (last > 1) {
-      var emails = p.getRange(2, 4, last - 1, 1).getValues();
+      var emails = p.getRange(2, KOLOM_EMAIL, last - 1, 1).getValues();
       for (var i = 0; i < emails.length; i++) {
         if (String(emails[i][0]).trim().toLowerCase() === email) {
           return json_({ ok: false, error: "duplicate" });
@@ -108,13 +127,14 @@ function doPost(e) {
     }
 
     p.appendRow([
-      new Date(), aman_(d.nama), aman_(d.npm), email, "'" + aman_(d.wa), aman_(d.institusi),
-      aman_(d.prodi), aman_(d.semester), aman_(d.kelas), aman_(d.motivasi),
+      new Date(), aman_(d.nama), email, aman_(d.telepon), String(d.negara).trim(), aman_(d.negaraNama),
+      teks_(d.paspor), teks_(d.tanggalLahir), aman_(d.institusi), aman_(d.prodi), String(d.jenjang).trim(),
+      aman_(d.tahun), aman_(d.motivasi),
     ]);
     SpreadsheetApp.flush();
 
     try {
-      kirimEmail_(String(d.nama).trim(), String(d.kelas).trim(), email);
+      kirimEmail_(String(d.nama).trim(), email);
     } catch (mailErr) {
       // Data sudah tersimpan; kegagalan email tidak membatalkan pendaftaran.
       console.error("Email gagal: " + mailErr);
@@ -128,16 +148,24 @@ function doPost(e) {
   }
 }
 
-function kirimEmail_(nama, kelas, email) {
+// Email konfirmasi dwibahasa (Indonesia dan Inggris).
+function kirimEmail_(nama, email) {
   var teks =
     "Halo " + nama + ",\n\n" +
-    "Pendaftaran Anda di Education Summer Course Online (ESCO) FKIP Universitas Lampung berhasil.\n\n" +
-    "Kelas: " + kelas + "\n\n" +
-    "Info akses Virtual Class Unila:\n" + INFO_AKSES + "\n\n" +
-    "Salam,\n" + NAMA_PENGIRIM;
+    "Pendaftaran Anda di Education Summer Course Online (ESCO) FKIP Universitas Lampung telah kami terima.\n\n" +
+    "Bagian TIK Unila akan mengirim NPM dan info akses Virtual Class FKIP Unila ke email ini. " +
+    "Mohon periksa kotak masuk dan folder spam Anda.\n\n" +
+    "Salam,\n" + NAMA_PENGIRIM + "\n\n" +
+    "------------------------------\n\n" +
+    "Dear " + nama + ",\n\n" +
+    "We have received your registration for the Education Summer Course Online (ESCO), " +
+    "Faculty of Teacher Training and Education, University of Lampung.\n\n" +
+    "The Unila ICT unit (TIK) will send your student ID number (NPM) and access information for the " +
+    "FKIP Unila Virtual Class to this email address. Please check your inbox and spam folder.\n\n" +
+    "Best regards,\n" + NAMA_PENGIRIM;
   MailApp.sendEmail({
     to: email,
-    subject: "Konfirmasi Pendaftaran ESCO FKIP Unila",
+    subject: "Konfirmasi Pendaftaran ESCO FKIP Unila / ESCO FKIP Unila Registration Confirmation",
     body: teks,
     name: NAMA_PENGIRIM,
   });

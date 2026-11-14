@@ -1,5 +1,5 @@
 export type Sesi = { judul: string; ringkasan: string; tanggal: string };
-export type Pengajar = { nama: string; instansi: string };
+export type Pengajar = { nama: string; instansi: string; foto?: string };
 /**
  * Cover kartu kelas. Untuk memakai gambar asli: taruh file di public/kelas/ lalu isi
  * { src: "/kelas/ipa.jpg", pos: "50% 50%", zoom: 1, duotone: false }. Selama belum ada, dipakai
@@ -17,7 +17,6 @@ export type Kelas = {
   gambaran: string[];
   durasi: string;
   jumlahWebinar: string;
-  kuota: string;
   capaian: string[];
   sesi: Sesi[];
   pengajar: Pengajar[];
@@ -50,7 +49,6 @@ function buat(slug: string, nomor: string, nama: string, cover: KelasCover): Kel
     gambaran: gambaranDefault,
     durasi: "[Durasi]",
     jumlahWebinar: "[Jumlah webinar]",
-    kuota: "[Kuota]",
     capaian: capaianDefault,
     sesi: sesiDefault(),
     pengajar: pengajarDefault(),
@@ -65,6 +63,10 @@ export const kelasList: Kelas[] = [
   buat("bahasa", "02", "[Kelas Bahasa]", sementara("22% 80%", 1.7)),
   buat("kelas-3", "03", "[Nama kelas 3]", sementara("74% 58%", 1.6)),
   buat("kelas-4", "04", "[Nama kelas 4]", sementara("62% 22%", 1.4)),
+  buat("kelas-5", "05", "[Nama kelas 5]", sementara("50% 72%", 1.3)),
+  buat("kelas-6", "06", "[Nama kelas 6]", sementara("92% 40%", 1.5)),
+  buat("kelas-7", "07", "[Nama kelas 7]", sementara("10% 18%", 1.6)),
+  buat("kelas-8", "08", "[Nama kelas 8]", sementara("46% 46%", 1.2)),
 ];
 
 export const getKelas = (slug: string) => kelasList.find((k) => k.slug === slug);
