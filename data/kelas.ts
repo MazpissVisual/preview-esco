@@ -59,7 +59,7 @@ function buat(slug: string, nomor: string, nama: string, cover: KelasCover): Kel
 const sementara = (pos: string, zoom: number): KelasCover => ({ src: "/hero-bg.png", pos, zoom, duotone: true });
 
 export const kelasList: Kelas[] = [
-  buat("ipa", "01", "[Kelas IPA]", sementara("30% 32%", 1.5)),
+  buat("ipa", "01", "[Kelas IPA]", { src: "/kelas/ipa.jpg", pos: "50% 50%", zoom: 1, duotone: false }),
   buat("bahasa", "02", "[Kelas Bahasa]", sementara("22% 80%", 1.7)),
   buat("kelas-3", "03", "[Nama kelas 3]", sementara("74% 58%", 1.6)),
   buat("kelas-4", "04", "[Nama kelas 4]", sementara("62% 22%", 1.4)),
