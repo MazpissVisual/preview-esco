@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { DM_Sans, Mona_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/site";
@@ -10,6 +10,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm", display: "sw
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: { default: `${site.namaLengkap} | ${site.penyelenggara}`, template: `%s | ${site.nama}` },
+  alternates: { canonical: "./" },
   description: `Situs resmi ${site.namaLengkap} (ESCO) ${site.penyelenggara}. Informasi program, kelas, narasumber, dan pendaftaran.`,
   icons: { icon: "/esco-logo.png", apple: "/esco-logo.png" },
   openGraph: {

@@ -53,6 +53,7 @@ export default function Beranda() {
               alt=""
               fill
               priority
+              fetchPriority="high"
               sizes="100vw"
               className="object-cover object-[50%_45%]"
             />
@@ -109,7 +110,7 @@ export default function Beranda() {
               </dl>
             </Reveal>
             <Reveal delay={120}>
-              <div className="placeholder-img aspect-[4/3] rounded-2xl">[Foto kegiatan / ilustrasi]</div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-esco-soft"><Image src="/kegiatan.png" alt="Sesi belajar kelas global ESCO secara daring" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" /></div>
             </Reveal>
           </div>
         </section>
