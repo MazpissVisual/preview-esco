@@ -2,6 +2,7 @@
 import { DM_Sans, Mona_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/site";
+import HashBersih from "@/components/HashBersih";
 
 // Mona Sans untuk judul, DM Sans untuk deskripsi/teks isi (keduanya variable font)
 const mona = Mona_Sans({ subsets: ["latin"], variable: "--font-mona", display: "swap" });
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#konten" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-esco-yellow focus:px-4 focus:py-2 focus:text-esco-purple">
           Lewati ke konten
         </a>
+        <HashBersih />
         {children}
       </body>
     </html>

@@ -10,16 +10,6 @@ const idOf = (href: string) => {
   return i >= 0 ? href.slice(i + 1) : "";
 };
 
-/** Di beranda: gulir mulus ke bagian tanpa menambahkan #bagian di alamat. */
-const pergi = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-  if (window.location.pathname !== "/") return;
-  const el = document.getElementById(idOf(href));
-  if (!el) return;
-  e.preventDefault();
-  el.scrollIntoView({ behavior: "smooth" });
-  history.replaceState(null, "", "/");
-};
-
 /** Navbar situs. shrink: logo dan padding menyusut setelah halaman digulir. */
 export default function Navbar({ shrink = false }: { shrink?: boolean }) {
   const menu = site.menu;
@@ -71,7 +61,6 @@ export default function Navbar({ shrink = false }: { shrink?: boolean }) {
               <a
                 key={m.href}
                 href={m.href}
-                onClick={(e) => pergi(e, m.href)}
                 aria-current={on ? "true" : undefined}
                 className={`relative py-2 no-underline transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-[3px] after:origin-left after:rounded-full after:bg-esco-gold after:transition-transform after:duration-300 ${on ? "text-esco-purple after:scale-x-100" : "text-[#3a2150] after:scale-x-0 hover:text-esco-purple hover:after:scale-x-100"}`}
               >
@@ -100,7 +89,7 @@ export default function Navbar({ shrink = false }: { shrink?: boolean }) {
           <ul className="m-0 flex list-none flex-col border-t border-esco-line px-5 pt-1">
             {menu.map((m) => (
               <li key={m.href}>
-                <a href={m.href} onClick={(e) => { setOpen(false); pergi(e, m.href); }} className="flex min-h-[48px] items-center border-b border-esco-line/60 text-[15px] font-medium text-[#3a2150] no-underline">{m.label}</a>
+                <a href={m.href} onClick={() => setOpen(false)} className="flex min-h-[48px] items-center border-b border-esco-line/60 text-[15px] font-medium text-[#3a2150] no-underline">{m.label}</a>
               </li>
             ))}
           </ul>
