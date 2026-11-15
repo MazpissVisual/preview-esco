@@ -231,7 +231,7 @@ export default function RegistrationForm() {
         {msg("setuju")}
       </div>
 
-      <p className="m-0 text-xs text-[#555]">{site.privasi}</p>
+      <p className="m-0 text-xs text-[#555]">{site.privasi}{" "}<Link href="/privasi" className="font-semibold text-esco-purple underline underline-offset-2">Baca Kebijakan Privasi</Link></p>
 
       {phase === "error" && (
         <div ref={resultRef} role="alert" className="msg-in rounded-2xl border-2 border-dashed border-esco-purple bg-white p-5">

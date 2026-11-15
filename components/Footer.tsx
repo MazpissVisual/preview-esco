@@ -11,6 +11,7 @@ const quick = [
 
 export default function Footer() {
   const k = site.kontak;
+  const tahun = new Date().getFullYear();
   const head = "mb-3 text-sm font-bold text-esco-dark";
   return (
     <footer className="border-t border-esco-line bg-esco-soft text-esco-text2">
@@ -47,8 +48,15 @@ export default function Footer() {
       </div>
       <div className="border-t border-esco-line">
         <div className="wrap flex flex-col justify-between gap-3 py-5 text-xs text-[#6f5a85] sm:flex-row">
-          <p className="m-0">{site.hakCipta}</p>
-          <p className="m-0">[Kebijakan privasi] · [Syarat dan ketentuan]</p>
+          <p className="m-0">© {tahun} {site.hakCipta}</p>
+          <nav aria-label="Dokumen hukum" className="flex flex-wrap gap-x-5 gap-y-1">
+            {[
+              { label: "Kebijakan Privasi", href: "/privasi" },
+              { label: "Syarat dan Ketentuan", href: "/syarat" },
+            ].map((d) => (
+              <Link key={d.href} href={d.href} className="text-[#6f5a85] no-underline transition-colors hover:text-esco-purple hover:underline">{d.label}</Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

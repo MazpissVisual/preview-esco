@@ -73,3 +73,7 @@ Peserta tidak memilih kelas: setelah mendaftar, bagian TIK Unila mengirim NPM da
 - **Kolom sheet `Pendaftar`:** timestamp, nama, email, telepon, negara_kode, negara, paspor, tanggal_lahir, institusi, prodi, jenjang, tahun_studi, motivasi.
 - **Jika sheet sudah dibuat dengan versi lama:** ganti nama sheet `Pendaftar` lama (mis. `Pendaftar-lama`), tempel `Code.gs` terbaru, jalankan `setupSheets` lagi, lalu buat **New version** pada deployment. Data lama tidak ikut dipindahkan otomatis.
 - **Email konfirmasi** dwibahasa (Indonesia dan Inggris) dan mengarahkan peserta menunggu NPM dari bagian TIK.
+
+## 7. Kebijakan Privasi dan Syarat & Ketentuan
+
+Halaman `/privasi` dan `/syarat` (tautan ada di footer dan di bawah formulir pendaftaran) berisi **draf** dengan teks dalam `[kurung siku]` yang harus ditinjau FKIP Unila sebelum situs dipublikasikan. Seluruh isinya ada di satu berkas: `data/hukum.ts` (judul bagian, paragraf, dan daftar). Tahun pada baris hak cipta di footer otomatis mengikuti tahun saat situs di-build.

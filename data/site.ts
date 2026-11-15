@@ -17,7 +17,7 @@ export const site = {
     youtube: "[YouTube]",
     alamat: "[Alamat lengkap FKIP Unila]",
   },
-  hakCipta: "[Hak cipta ESCO FKIP Universitas Lampung]",
+  hakCipta: "ESCO FKIP Universitas Lampung. Hak cipta dilindungi.",
   privasi:
     "[Pernyataan penggunaan data: data pribadi (termasuk nomor paspor bila diisi) hanya digunakan panitia dan bagian TIK Unila untuk pendaftaran dan pembuatan NPM, disimpan di Google Sheets, dan tidak dibagikan ke pihak lain.]",
   menu: [
