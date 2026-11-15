@@ -110,7 +110,7 @@ export default function Beranda() {
               </dl>
             </Reveal>
             <Reveal delay={120}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-esco-soft"><Image src="/kegiatan.png" alt="Sesi belajar kelas global ESCO secara daring" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" /></div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-esco-soft"><Image src="/kegiatan.jpg" alt="Peserta mengikuti kelas daring ESCO lewat video konferensi" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover object-[70%_50%]" /></div>
             </Reveal>
           </div>
         </section>

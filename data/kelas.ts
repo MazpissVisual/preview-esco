@@ -55,18 +55,19 @@ function buat(slug: string, nomor: string, nama: string, cover: KelasCover): Kel
   };
 }
 
-// Cover sementara: empat potongan berbeda dari ilustrasi hero.
-const sementara = (pos: string, zoom: number): KelasCover => ({ src: "/hero-bg.png", pos, zoom, duotone: true });
+// Sementara semua kelas memakai cover IPA. Untuk cover sendiri: taruh JPG di public/kelas/ lalu ganti `cover` kelas terkait,
+// mis. { src: "/kelas/bahasa.jpg", pos: "50% 50%", zoom: 1, duotone: false }.
+const coverIpa: KelasCover = { src: "/kelas/ipa.jpg", pos: "50% 50%", zoom: 1, duotone: false };
 
 export const kelasList: Kelas[] = [
-  buat("ipa", "01", "[Kelas IPA]", { src: "/kelas/ipa.jpg", pos: "50% 50%", zoom: 1, duotone: false }),
-  buat("bahasa", "02", "[Kelas Bahasa]", sementara("22% 80%", 1.7)),
-  buat("kelas-3", "03", "[Nama kelas 3]", sementara("74% 58%", 1.6)),
-  buat("kelas-4", "04", "[Nama kelas 4]", sementara("62% 22%", 1.4)),
-  buat("kelas-5", "05", "[Nama kelas 5]", sementara("50% 72%", 1.3)),
-  buat("kelas-6", "06", "[Nama kelas 6]", sementara("92% 40%", 1.5)),
-  buat("kelas-7", "07", "[Nama kelas 7]", sementara("10% 18%", 1.6)),
-  buat("kelas-8", "08", "[Nama kelas 8]", sementara("46% 46%", 1.2)),
+  buat("ipa", "01", "[Kelas IPA]", coverIpa),
+  buat("bahasa", "02", "[Kelas Bahasa]", coverIpa),
+  buat("kelas-3", "03", "[Nama kelas 3]", coverIpa),
+  buat("kelas-4", "04", "[Nama kelas 4]", coverIpa),
+  buat("kelas-5", "05", "[Nama kelas 5]", coverIpa),
+  buat("kelas-6", "06", "[Nama kelas 6]", coverIpa),
+  buat("kelas-7", "07", "[Nama kelas 7]", coverIpa),
+  buat("kelas-8", "08", "[Nama kelas 8]", coverIpa),
 ];
 
 export const getKelas = (slug: string) => kelasList.find((k) => k.slug === slug);
